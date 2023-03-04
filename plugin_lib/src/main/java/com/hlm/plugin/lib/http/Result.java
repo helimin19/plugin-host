@@ -1,4 +1,4 @@
-package com.hlm.plugin.host.http;
+package com.hlm.plugin.lib.http;
 
 /**
  * 响应结果包装类

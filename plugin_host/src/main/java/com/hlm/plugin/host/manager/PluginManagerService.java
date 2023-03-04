@@ -5,8 +5,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hlm.plugin.host.entity.PluginManagerEntity;
-import com.hlm.plugin.host.http.ResquestCallback;
-import com.hlm.plugin.host.http.Result;
+import com.hlm.plugin.lib.http.ResquestCallback;
+import com.hlm.plugin.lib.http.Result;
+import com.hlm.plugin.lib.http.RetrofitProxy;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class PluginManagerService {
      * @param callback 请求回调
      */
     public void check(Context context, ResquestCallback<PluginManagerUpdateResult> callback) {
-        Retrofit retrofit = PluginManagerConfig.instance().getRetrofitProxy().getRetrofit(context);
+        Retrofit retrofit = RetrofitProxy.instance().getRetrofitProvider().getRetrofit(context);
         PluginManagerApi api = retrofit.create(PluginManagerApi.class);
         List<PluginManagerEntity> versions = getVersions(context);
         String url = PluginManagerConfig.instance().getUrlCheck();

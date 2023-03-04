@@ -5,7 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hlm.plugin.host.entity.PluginManagerEntity;
-import com.hlm.plugin.host.http.ResquestCallback;
+import com.hlm.plugin.lib.http.ResquestCallback;
+import com.hlm.plugin.lib.http.RetrofitProxy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,7 +79,7 @@ public class PluginManagerDownloader {
      * @param item    插件管理信息
      */
     public void update(Context context, PluginManagerEntity item, ResquestCallback<File> callback) {
-        Retrofit retrofit = PluginManagerConfig.instance().getRetrofitProxy().getRetrofit(context);
+        Retrofit retrofit = RetrofitProxy.instance().getRetrofitProvider().getRetrofit(context);
         PluginManagerApi api = retrofit.create(PluginManagerApi.class);
         String url = PluginManagerConfig.instance().getUrlUpdate();
         Call<ResponseBody> call = api.update(url, item);

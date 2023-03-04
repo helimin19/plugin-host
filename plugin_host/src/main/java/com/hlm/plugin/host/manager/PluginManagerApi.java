@@ -1,7 +1,7 @@
 package com.hlm.plugin.host.manager;
 
 import com.hlm.plugin.host.entity.PluginManagerEntity;
-import com.hlm.plugin.host.http.Result;
+import com.hlm.plugin.lib.http.Result;
 
 import java.util.List;
 

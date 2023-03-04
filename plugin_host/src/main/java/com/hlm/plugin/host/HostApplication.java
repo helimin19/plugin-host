@@ -7,10 +7,10 @@ import android.app.Application;
 import android.content.Context;
 
 import com.hlm.plugin.host.entity.PluginManagerEntity;
-import com.hlm.plugin.host.http.ResquestCallback;
 import com.hlm.plugin.host.manager.FixedPathPmUpdater;
 import com.hlm.plugin.host.manager.PluginManagerService;
 import com.hlm.plugin.host.manager.PluginManagerUpdateResult;
+import com.hlm.plugin.lib.http.ResquestCallback;
 import com.tencent.shadow.core.common.LoggerFactory;
 import com.tencent.shadow.dynamic.host.DynamicPluginManager;
 import com.tencent.shadow.dynamic.host.DynamicRuntime;

@@ -1,13 +1,13 @@
-package com.hlm.plugin.host.http;
+package com.hlm.plugin.lib.http;
 
 import android.content.Context;
 
 import retrofit2.Retrofit;
 
 /**
- * Retrofit代理
+ * Retrofit提供者
  */
-public interface RetrofitProxy {
+public interface RetrofitProvider {
 
     /**
      * 取得Retrofit
