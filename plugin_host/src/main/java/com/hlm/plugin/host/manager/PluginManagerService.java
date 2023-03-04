@@ -98,15 +98,13 @@ public class PluginManagerService {
     }
 
     /**
-     * 取得插件管理的版本
-     *
+     * 取得所有插件管理apk
      * @param context 上下文
-     * @return 所有插件管理的版本
+     * @return 所有插件管理apk
      */
-    private List<PluginManagerEntity> getVersions(Context context) {
-        List<PluginManagerEntity> list = new ArrayList<>();
+    public static File[] getAll(Context context) {
         File path = getPluginManagerPath(context);
-        File[] files = path.listFiles(file -> {
+        return path.listFiles(file -> {
             if (!file.isFile()) {
                 return false;
             }
@@ -114,21 +112,57 @@ public class PluginManagerService {
             if (TextUtils.isEmpty(name) || name.indexOf(".") == -1) {
                 return false;
             }
-            String ext = name.substring(name.lastIndexOf("."));
+            String ext = name.substring(name.lastIndexOf(".") + 1);
             if ("apk".equalsIgnoreCase(ext)) {
                 return true;
             }
             return false;
         });
+    }
+
+    /**
+     * 取得所有插件管理apk
+     * @param context 上下文
+     * @return 所有插件管理apk
+     */
+    public static Map<PluginManagerEntity, File> getMap(Context context) {
+        Map<PluginManagerEntity, File> map = new HashMap<>();
+
+        File[] files = getAll(context);
+        if (files == null || files.length == 0) {
+            return map;
+        }
+
+        for (File file : files) {
+            String name = file.getName().substring(0, file.getName().lastIndexOf("."));
+            int position = name.indexOf(".");
+            if (position > 0) {
+                String code = name.substring(0, position);
+                String version = name.substring(position + 1);
+                map.put(new PluginManagerEntity(code, version), file);
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 取得插件管理的版本
+     *
+     * @param context 上下文
+     * @return 所有插件管理的版本
+     */
+    private List<PluginManagerEntity> getVersions(Context context) {
+        List<PluginManagerEntity> list = new ArrayList<>();
+        File[] files = getAll(context);
         if (files == null || files.length == 0) {
             return list;
         }
         for (File file : files) {
-            String name = file.getName().substring(0, file.getName().lastIndexOf(".") - 1);
+            String name = file.getName().substring(0, file.getName().lastIndexOf("."));
             int position = name.indexOf(".");
             if (position > 0) {
-                String code = name.substring(0, position - 1);
-                String version = name.substring(position);
+                String code = name.substring(0, position);
+                String version = name.substring(position + 1);
                 list.add(new PluginManagerEntity(code, version));
             }
         }

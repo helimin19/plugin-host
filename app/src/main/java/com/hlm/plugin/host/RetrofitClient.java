@@ -16,4 +16,5 @@ public class RetrofitClient implements RetrofitProvider {
                 .build();
         return retrofit;
     }
+
 }

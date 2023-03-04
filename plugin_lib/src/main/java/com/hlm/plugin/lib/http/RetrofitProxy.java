@@ -1,8 +1,11 @@
 package com.hlm.plugin.lib.http;
 
+import androidx.annotation.Keep;
+
 /**
  * Retrofit代理
  */
+@Keep
 public class RetrofitProxy {
 
     private static volatile RetrofitProxy config;
@@ -14,7 +17,7 @@ public class RetrofitProxy {
         return config;
     }
 
-    private RetrofitProxy() {
+    public RetrofitProxy() {
     }
 
     // Retrofit提供者

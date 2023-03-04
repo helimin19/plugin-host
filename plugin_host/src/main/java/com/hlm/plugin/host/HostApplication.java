@@ -11,6 +11,7 @@ import com.hlm.plugin.host.manager.FixedPathPmUpdater;
 import com.hlm.plugin.host.manager.PluginManagerService;
 import com.hlm.plugin.host.manager.PluginManagerUpdateResult;
 import com.hlm.plugin.lib.http.ResquestCallback;
+import com.tencent.shadow.core.common.Logger;
 import com.tencent.shadow.core.common.LoggerFactory;
 import com.tencent.shadow.dynamic.host.DynamicPluginManager;
 import com.tencent.shadow.dynamic.host.DynamicRuntime;
@@ -69,11 +70,15 @@ public class HostApplication {
      * 更新插件管理 - 一般放在启动界面，不要放在applicagtion中，因为这里需要下载更新
      */
     public static void updatePluginManagers(Context context, UpdateCallback callback) {
+        getLogger().debug("plugin-manager-开始检测插件管理...");
+
         // 第一步: 获取新增了哪些管理插件；更新了哪些管理插件; 删除了哪些管理插件
         PluginManagerService service = new PluginManagerService();
         service.check(context, new ResquestCallback<PluginManagerUpdateResult>() {
             @Override
             public void successed(PluginManagerUpdateResult result) {
+                getLogger().debug("plugin-manage-检测插件管理成功, 开始更新检测插件管理成功");
+
                 // 删除
                 service.deletes(context, result.getDeletes());
 
@@ -81,14 +86,19 @@ public class HostApplication {
                 service.updates(context, result.getUpdates(), new ResquestCallback<Map<PluginManagerEntity, File>>() {
                     @Override
                     public void successed(Map<PluginManagerEntity, File> data) {
-                        initPluginManagers(data);
+                        getLogger().debug("plugin-manager-更新检测插件管理成功");
+
+                        loadAllPluginManagers(context);
 
                         callback.finished();
                     }
 
                     @Override
                     public void failed(String message) {
-                        AndroidLoggerFactory.getInstance().getLogger("plugin").error(message);
+                        getLogger().debug("plugin-manager-更新检测插件管理失败:" + message);
+
+                        loadAllPluginManagers(context);
+
                         callback.finished();
                     }
                 });
@@ -96,10 +106,26 @@ public class HostApplication {
 
             @Override
             public void failed(String message) {
-                AndroidLoggerFactory.getInstance().getLogger("plugin").error(message);
+                getLogger().debug("plugin-manage-检测插件管理失败:" + message);
+
+                loadAllPluginManagers(context);
+
                 callback.finished();
             }
         });
+    }
+
+    /**
+     * 加载所有的插件管理APK
+     * @param context 上下文
+     */
+    private static void loadAllPluginManagers(Context context) {
+        Map<PluginManagerEntity, File> pluginManagerApkPathMap = PluginManagerService.getMap(context);
+
+        getLogger().debug("plugin-manage-需要安装的插件管理个数:" + pluginManagerApkPathMap.size());
+
+
+        initPluginManagers(pluginManagerApkPathMap);
     }
 
     /**
@@ -132,6 +158,9 @@ public class HostApplication {
                 throw new RuntimeException("程序不容错", e);
             }
         }
+
+        getLogger().debug("plugin-manage-初使化插件管理:" + entity.getCode());
+
         pluginManagerList.put(entity.getCode(), new DynamicPluginManager(fixedPathPmUpdater));
     }
 
@@ -153,6 +182,10 @@ public class HostApplication {
         }
 
         return currentProcName.endsWith(processName);
+    }
+
+    public static Logger getLogger() {
+        return LoggerFactory.getILoggerFactory().getLogger("default");
     }
 
 }

@@ -2,11 +2,14 @@ package com.hlm.plugin.lib.http;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import retrofit2.Retrofit;
 
 /**
  * Retrofit提供者
  */
+@Keep
 public interface RetrofitProvider {
 
     /**

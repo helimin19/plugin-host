@@ -1,9 +1,12 @@
 package com.hlm.plugin.lib.http;
 
+import androidx.annotation.Keep;
+
 /**
  * 响应结果包装类
  * @param <T>
  */
+@Keep
 public class Result<T> {
     // 请求成功了，但处理结果错误的错误码
     private int code;

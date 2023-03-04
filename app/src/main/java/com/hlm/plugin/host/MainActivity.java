@@ -19,9 +19,6 @@ import com.hlm.plugin.host.exception.PluginException;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int FROM_ID_START_ACTIVITY = 1001;
-    public static final int FROM_ID_CALL_SERVICE = 1002;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
                 v.setEnabled(false);//防止点击重入
 
                 try {
-                    PluginService.enter(MainActivity.this, "default", FROM_ID_START_ACTIVITY, new Bundle(), new PluginEnterCallback() {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "sample-plugin");
+                    bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.example.shadowapp.MainActivity");
+
+                    PluginService.enter(MainActivity.this, "default", 100, bundle, new PluginEnterCallback() {
                         @Override
                         public void onShowLoadingView(View view) {
                             MainActivity.this.setContentView(view); // 显示Manager传来的Loading页面
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 v.setEnabled(false);//防止点击重入
 
                 try {
-                    PluginService.enter(MainActivity.this, "default", FROM_ID_CALL_SERVICE, null, null);
+                    PluginService.enter(MainActivity.this, "default", 100, null, null);
                 } catch (PluginException e) {
                     e.printStackTrace();
                 }

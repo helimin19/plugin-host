@@ -4,9 +4,12 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.hlm.plugin.host.HostApplication;
 import com.hlm.plugin.host.entity.PluginManagerEntity;
 import com.hlm.plugin.lib.http.ResquestCallback;
 import com.hlm.plugin.lib.http.RetrofitProxy;
+import com.tencent.shadow.core.common.Logger;
+import com.tencent.shadow.core.common.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -79,6 +82,8 @@ public class PluginManagerDownloader {
      * @param item    插件管理信息
      */
     public void update(Context context, PluginManagerEntity item, ResquestCallback<File> callback) {
+        HostApplication.getLogger().debug("开始下载插件管理apk:" + item.getCode());
+
         Retrofit retrofit = RetrofitProxy.instance().getRetrofitProvider().getRetrofit(context);
         PluginManagerApi api = retrofit.create(PluginManagerApi.class);
         String url = PluginManagerConfig.instance().getUrlUpdate();
@@ -87,15 +92,21 @@ public class PluginManagerDownloader {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
+                    HostApplication.getLogger().debug("下载插件管理apk成功");
+
                     File file = save(context, item, response.body());
                     callback.successed(file);
                 } else {
+                    HostApplication.getLogger().debug("下载插件管理apk失败:" + response.message());
+
                     callback.failed(response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                HostApplication.getLogger().debug("下载插件管理apk请求失败:" + t.getMessage());
+
                 callback.failed(t.getMessage());
             }
         });

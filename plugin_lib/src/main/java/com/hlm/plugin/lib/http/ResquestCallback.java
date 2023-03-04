@@ -1,9 +1,12 @@
 package com.hlm.plugin.lib.http;
 
+import androidx.annotation.Keep;
+
 /**
  * 请求回调
  * @param <T>
  */
+@Keep
 public interface ResquestCallback<T> {
 
     /**
