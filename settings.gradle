@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "plugin-host"
 include ':app'
 include ':plugin_host'
+include ':plugin_lib'

@@ -2,12 +2,12 @@ package com.hlm.plugin.host;
 
 import android.content.Context;
 
-import com.hlm.plugin.host.http.RetrofitProxy;
+import com.hlm.plugin.lib.http.RetrofitProvider;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyRetrofitProxy implements RetrofitProxy {
+public class RetrofitClient implements RetrofitProvider {
     @Override
     public Retrofit getRetrofit(Context context) {
         Retrofit retrofit = new Retrofit.Builder()
