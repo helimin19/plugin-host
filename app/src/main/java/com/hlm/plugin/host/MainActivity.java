@@ -38,26 +38,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 v.setEnabled(false);//防止点击重入
 
-try {
-    PluginService.enter(MainActivity.this, "default", FROM_ID_START_ACTIVITY, new Bundle(), new PluginEnterCallback() {
-        @Override
-        public void onShowLoadingView(View view) {
-            MainActivity.this.setContentView(view); // 显示Manager传来的Loading页面
-        }
+                try {
+                    PluginService.enter(MainActivity.this, "default", FROM_ID_START_ACTIVITY, new Bundle(), new PluginEnterCallback() {
+                        @Override
+                        public void onShowLoadingView(View view) {
+                            MainActivity.this.setContentView(view); // 显示Manager传来的Loading页面
+                        }
 
-        @Override
-        public void onCloseLoadingView() {
-            MainActivity.this.setContentView(linearLayout);
-        }
+                        @Override
+                        public void onCloseLoadingView() {
+                            MainActivity.this.setContentView(linearLayout);
+                        }
 
-        @Override
-        public void onEnterComplete() {
-            v.setEnabled(true);
-        }
-    });
-} catch (PluginException e) {
-    e.printStackTrace();
-}
+                        @Override
+                        public void onEnterComplete() {
+                            v.setEnabled(true);
+                        }
+                    });
+                } catch (PluginException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
