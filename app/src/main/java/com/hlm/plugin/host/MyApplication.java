@@ -17,7 +17,10 @@ public class MyApplication extends Application {
 
         PluginManagerConfig.instance().setUrlCheck("plugin/manager/check.txt").setUrlUpdate("plugin_manager-debug.apk");
 
-        PluginAppConfig.instance().setBaseUrl("http://192.168.31.66:8080/examples/").setUrlCheck("plugin/app/check.txt").setUrlUpdate("plugin-debug.zip");
+        PluginAppConfig.instance()
+                .setBaseUrl("http://192.168.31.66:8080/examples/")
+                .setUrlCheck("plugin/app/${appId}/check.txt")
+                .setUrlUpdate("plugin/app/${appId}/plugin-debug.zip");
 
         HostApplication.onApplicationCreate(this);
     }
