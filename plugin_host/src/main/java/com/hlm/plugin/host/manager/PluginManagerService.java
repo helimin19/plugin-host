@@ -204,7 +204,7 @@ public class PluginManagerService {
             if (TextUtils.isEmpty(name) || name.indexOf(".") == -1) {
                 return false;
             }
-            String ext = name.substring(name.lastIndexOf("."));
+            String ext = name.substring(name.lastIndexOf(".") + 1);
             if (!"apk".equalsIgnoreCase(ext)) {
                 return false;
             }
