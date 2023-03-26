@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+//    id 'maven'
 }
 
 android {
@@ -22,8 +23,24 @@ android {
 }
 
 dependencies {
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    compileOnly 'com.squareup.retrofit2:retrofit:2.9.0'
+    compileOnly 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    implementation 'androidx.annotation:annotation:1.2.0'
+    compileOnly 'androidx.annotation:annotation:1.2.0'
 }
+
+// 将当前module打包发布到本地maven仓库
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            // 生成maven依赖的组名
+//            pom.groupId = 'com.mygroup'
+//            // 生成maven依赖的模块名称
+//            pom.artifactId = 'mylib'
+//            // 生成maven依赖的版本号
+//            pom.version = '1.0.0'
+//            // 本地maven仓库的路径
+//            repository(url: uri("/Users/zhao/maven-local"))
+//        }
+//    }
+//}
